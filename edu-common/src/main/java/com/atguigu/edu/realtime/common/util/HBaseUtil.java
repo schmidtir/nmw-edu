@@ -5,6 +5,7 @@ package com.atguigu.edu.realtime.common.util;
  * Author : Kevin
  * Create Date ：2025/1/6
  * Create Time ：17:00
+ * TODO Hbase 的连接工具
  * <p>
  * version: 0.0.1.0
  */
@@ -23,10 +24,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.atguigu.edu.realtime.common.constant.Constant.*;
+
 
 public class HBaseUtil {
 
+    public static void main(String[] args) {
+//        AsyncConnection asyncConnection = getAsyncConnection();
+//        JSONObject realtime = getRowAsync(asyncConnection, HBASE_NAMESPACE, "", "1");
+//        System.out.println(gmallRealtime);
+//        closeAsyncConnection(asyncConnection);
 
+        Connection connection = getConnection();
+
+    }
 
     /***
      * 获取异步连接
@@ -314,10 +325,5 @@ public class HBaseUtil {
         }
     }
 
-    public static void main(String[] args) {
-        AsyncConnection asyncConnection = getAsyncConnection();
-        JSONObject gmallRealtime = getRowAsync(asyncConnection, "gmall_realtime", "", "1");
-        System.out.println(gmallRealtime);
-        closeAsyncConnection(asyncConnection);
-    }
+
 }

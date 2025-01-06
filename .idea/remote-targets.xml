@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="atguigu@hadoop103:22" type="ssh/sftp" uuid="c620f10d-8ec4-410b-b7eb-7934231d731e">
+        <config>
+          <option name="projectRootOnTarget" value="/home/atguigu/nmw-edu" />
+          <option name="serverName" value="atguigu@hadoop103:22 password" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="/opt/module/jdk1.8.0_212" />
+            <option name="javaVersionString" value="1.8.0_212" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
