@@ -28,6 +28,7 @@ public class Constant {
 
     public static final String HBASE_NAMESPACE_DIM = "edu_realtime";
 
+    public static final String HBASE_NAMESPACE = "edu_realtime";
 
     public static final String CDC_OP_C = "c";
     public static final String CDC_OP_D = "d";
@@ -39,7 +40,7 @@ public class Constant {
     public static final String TABLE_PROCESS_DWD = "table_process_dwd";
 
 
-    public static final String CK_PATH_PREFIX = "hdfs://hadoop102:8020/edu/stream/";
+    public static final String CK_PATH_PREFIX = "hdfs://hadoop101:8020/edu/stream/";
 
     public static final String HDFS_USER_NAME_CONFIG = "HADOOP_USER_NAME";
     public static final String HDFS_USER_NAME_VALUE = "atguigu";
@@ -58,10 +59,9 @@ public class Constant {
     public static final int MYSQL_PORT = 3306;
     public static final String MYSQL_USER_NAME = "root";
     public static final String MYSQL_PASSWORD = "000000";
-    public static final String HBASE_NAMESPACE = "edu_realtime";
 
     public static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop102:3306/edu_config";
+    public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop101:3306/edu_config";
 
     public static final String TOPIC_DWD_TRAFFIC_DIRTY = "dwd_traffic_dirty";
 
