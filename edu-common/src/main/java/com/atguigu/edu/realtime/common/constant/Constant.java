@@ -13,7 +13,7 @@ package com.atguigu.edu.realtime.common.constant;
 public class Constant {
 
 
-
+    public static final String MYSQL_URL = "jdbc:mysql://hadoop101:3306?useSSL=false";
     public static final String REDIS_HOST = "hadoop103";
     public static final int REDIS_PORT = 6379;
     public static final int REDIS_DIM_EX_ONE_DAY = 24 * 60 * 60 * 1000;
@@ -61,7 +61,6 @@ public class Constant {
     public static final String HBASE_NAMESPACE = "edu_realtime";
 
     public static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String MYSQL_URL = "jdbc:mysql://hadoop102:3306?useSSL=false";
     public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop102:3306/edu_config";
 
     public static final String TOPIC_DWD_TRAFFIC_DIRTY = "dwd_traffic_dirty";
