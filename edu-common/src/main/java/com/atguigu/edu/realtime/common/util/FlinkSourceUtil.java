@@ -105,7 +105,7 @@ public class FlinkSourceUtil {
 
                 )
                 .setStartingOffsets(OffsetsInitializer.earliest())
-//                .setStartingOffsets(OffsetsInitializer.latest())
+//              .setStartingOffsets(OffsetsInitializer.latest())
                 .setProperty(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed")
                 .build();
 
