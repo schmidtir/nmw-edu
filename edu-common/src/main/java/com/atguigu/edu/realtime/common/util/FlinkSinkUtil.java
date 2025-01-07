@@ -12,6 +12,7 @@ package com.atguigu.edu.realtime.common.util;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.atguigu.edu.realtime.common.bean.TableProcessDwd;
 import com.atguigu.edu.realtime.common.constant.Constant;
 import org.apache.doris.flink.cfg.DorisExecutionOptions;
 import org.apache.doris.flink.cfg.DorisOptions;
@@ -23,9 +24,11 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import javax.annotation.Nullable;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
@@ -85,5 +88,46 @@ public class FlinkSinkUtil {
                 .build();
 
         return kafkaSink ;
+    }
+
+    public static KafkaSink<Tuple2<JSONObject, TableProcessDwd>> getDwdKafkaSink() {
+
+        KafkaSink<Tuple2<JSONObject, TableProcessDwd>> splitSink = KafkaSink.<Tuple2<JSONObject, TableProcessDwd>>builder()
+                .setBootstrapServers( KAFKA_BROKERS )
+                .setRecordSerializer(
+                        new KafkaRecordSerializationSchema<Tuple2<JSONObject, TableProcessDwd>>() {
+                            @Nullable
+                            @Override
+                            public ProducerRecord<byte[], byte[]> serialize(Tuple2<JSONObject, TableProcessDwd> tup2
+                                    , KafkaSinkContext kafkaSinkContext
+                                    , Long aLong) {
+
+                                // 获取写入的数据
+                                JSONObject jsonObj = tup2.f0;
+
+                                // 获取要写入的主题
+                                TableProcessDwd tableProcessDwd = tup2.f1;
+                                String topic = tableProcessDwd.getSinkTable();
+
+
+                                ProducerRecord<byte[], byte[]> producerRecord = new ProducerRecord<>(topic
+                                        , jsonObj.toJSONString().getBytes(StandardCharsets.UTF_8));
+                                /*
+                                 * 生产者写入 kafka 的分区策略
+                                 * 1. 数据写到指定的分区流
+                                 * 2. 根据key取hash值，依据hash值决定写入哪个分区
+                                 * 3. 粘性分区
+                                 * */
+
+                                return producerRecord;
+                            }
+                        }
+                )
+//                .setDeliveryGuarantee( DeliveryGuarantee.AT_LEAST_ONCE )
+                .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
+                .setTransactionalIdPrefix("gmall_realtime_" + System.currentTimeMillis())
+                .setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, 1000 * 60 * 10 + "")
+                .build();
+        return splitSink;
     }
 }

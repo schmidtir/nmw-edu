@@ -284,6 +284,6 @@ public class DwdBaseDbApp extends BaseApp {
         //          , op=null))
 
         // 动态分流
-        connectDs.sinkTo(FlinkSinkUtil.getDwd)
+        connectDs.sinkTo(FlinkSinkUtil.getDwdKafkaSink());
     }
 }
