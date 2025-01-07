@@ -305,7 +305,7 @@ public class DimApp extends BaseApp {
                         }
                 );
 
-        // filterDs.print("🫛🫛");
+         filterDs.print("🫛🫛");
 
         filterDs.addSink(
                 new RichSinkFunction<Tuple2<JSONObject, TableProcessDim>>() {

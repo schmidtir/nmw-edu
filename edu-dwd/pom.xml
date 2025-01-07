@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>edu-dwd-base-log</module>
+        <module>edu-dwd-base-db</module>
     </modules>
 
     <properties>
