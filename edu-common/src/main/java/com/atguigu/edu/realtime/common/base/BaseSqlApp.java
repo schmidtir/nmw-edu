@@ -24,7 +24,7 @@ import static org.apache.flink.streaming.api.environment.CheckpointConfig.Extern
 
 public abstract class BaseSqlApp {
 
-    public void start(Integer port, int parallelism, String ckPath ) throws Exception {
+    public void start(Integer port, int parallelism, String ckPath )  {
         System.setProperty(HDFS_USER_NAME_CONFIG, HDFS_USER_NAME_VALUE);
 
         //
@@ -64,7 +64,7 @@ public abstract class BaseSqlApp {
 //        }
     }
 
-    protected abstract void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env) throws Exception;
+    protected abstract void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env);
 
     public static void readOdsTopicDb(StreamTableEnvironment streamTableEnv, String groupId)  {
         // 连接器表
