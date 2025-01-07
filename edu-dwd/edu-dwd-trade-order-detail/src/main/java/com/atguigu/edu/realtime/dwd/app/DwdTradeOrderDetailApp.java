@@ -35,7 +35,7 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
         // 过滤业务数据
         readOdsTopicDb( streamTableEnv, "dwd_trade_order_detail_app" );
 
-        streamTableEnv.executeSql(" SELECT * FROM topic_db ").print();
+        // streamTableEnv.executeSql(" SELECT * FROM topic_db ").print();
 
 //        // 读取 dwd_traffic_page_log
 //        streamTableEnv.executeSql(
@@ -67,7 +67,7 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " AND `type` = '" + MAXWELL_TYPE_INSERT + "' "
         );
 
-//        orderDetailTable.execute().print();
+        orderDetailTable.execute().print();
         streamTableEnv.createTemporaryView("order_detail", orderDetailTable);
 
         // 过滤订单表

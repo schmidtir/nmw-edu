@@ -30,8 +30,8 @@ public abstract class BaseSqlApp {
         //
         Configuration conf = new Configuration();
         conf.setInteger( RestOptions.PORT, port );
-        conf.setString("taskmanager.memory.process.size", "1024m");
-        conf.setString("jobmanager.memory.process.size", "1024m");
+//        conf.setString("taskmanager.memory.process.size", "1024m");
+//        conf.setString("jobmanager.memory.process.size", "1024m");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment( conf );
 
         env.setParallelism( parallelism );
@@ -40,19 +40,19 @@ public abstract class BaseSqlApp {
 
         //
         env.setStateBackend( new HashMapStateBackend() );
-        env.enableCheckpointing(5000 );
-
-        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
-
-        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckPath );
-
-        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
-
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
-
-        env.getCheckpointConfig().setCheckpointTimeout(1000000);
-
-        env.getCheckpointConfig().setExternalizedCheckpointCleanup( RETAIN_ON_CANCELLATION );
+//        env.enableCheckpointing(5000 );
+//
+//        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
+//
+//        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckPath );
+//
+//        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
+//
+//        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
+//
+//        env.getCheckpointConfig().setCheckpointTimeout(1000000);
+//
+//        env.getCheckpointConfig().setExternalizedCheckpointCleanup( RETAIN_ON_CANCELLATION );
 
         handle( streamTableEnv, env );
 
