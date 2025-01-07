@@ -125,7 +125,7 @@ public class FlinkSinkUtil {
                 )
 //                .setDeliveryGuarantee( DeliveryGuarantee.AT_LEAST_ONCE )
                 .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
-                .setTransactionalIdPrefix("gmall_realtime_" + System.currentTimeMillis())
+                .setTransactionalIdPrefix("edu_realtime_" + System.currentTimeMillis())
                 .setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, 1000 * 60 * 10 + "")
                 .build();
         return splitSink;
