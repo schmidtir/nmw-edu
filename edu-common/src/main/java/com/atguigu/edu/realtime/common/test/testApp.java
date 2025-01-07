@@ -15,12 +15,12 @@ import com.atguigu.edu.realtime.common.base.BaseApp;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-import static com.atguigu.edu.realtime.common.constant.Constant.TOPIC_DB;
+import static com.atguigu.edu.realtime.common.constant.Constant.TOPIC_LOG;
 
 public class testApp extends BaseApp {
     public static void main(String[] args) {
         new testApp()
-                .start(10001,4,"test1", TOPIC_DB);
+                .start(10001,4,"test1", TOPIC_LOG);
     }
     @Override
     public void handle(StreamExecutionEnvironment env, DataStreamSource<String> ds) {

@@ -46,7 +46,7 @@ public class JdbcUtil {
      * 查询多条数据
      */
 
-    public static <T> List<T> querList(Connection connection,String  sql , Class<T> returnType,Boolean isUnderScoreToCamel){
+    public static <T> List<T> queryList(Connection connection,String  sql , Class<T> returnType,Boolean isUnderScoreToCamel){
         List<T> configList = new ArrayList<>();
         try {
             //编译sql
@@ -128,7 +128,7 @@ public class JdbcUtil {
      */
     public static <T> T querOne(Connection connection,String sql,Class<T> returnType,Boolean isUnderScoreToCamel){
 
-        List<T> configList = querList(connection,sql,returnType,isUnderScoreToCamel);
+        List<T> configList = queryList(connection,sql,returnType,isUnderScoreToCamel);
 
         if(configList.size() > 0){//如果集合的长度大于0，就返回集合中的第一个对象
             return configList.get(0);

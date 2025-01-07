@@ -44,16 +44,22 @@ public class FlinkSourceUtil {
         // 1. 创建环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment( conf );
         env.setParallelism(1);
-        KafkaSource<String> kafkaSource = getKafkaSource("test1", "topic_db");
+        MySqlSource<String> mySqlSource = getMySqlSource("edu_config", "table_process_dim");
 
         DataStreamSource<String> kfkDs
-                = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "kafkaSource");
+                = env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "mySqlSource");
 
         kfkDs.print();
+
+        try {
+            env.execute();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     public static MySqlSource<String> getMySqlSource(String database, String table) {
         MySqlSource<String> mysqlSource = MySqlSource.<String>builder()
-                .hostname( "hadoop102" )
+                .hostname( "hadoop101" )
                 .port( 3306 )
                 .databaseList( database )  // 设置捕获的数据库， 如果需要同步整个数据库，请将 tableList 设置为 “.*” .
                 .tableList( database+ "." + table ) // 设置捕获的表

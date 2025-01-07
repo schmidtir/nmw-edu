@@ -36,6 +36,8 @@ public class HBaseUtil {
 //        closeAsyncConnection(asyncConnection);
 
         Connection connection = getConnection();
+        System.out.println(connection);
+//        putRow(connection,"test","test1","id","info","");
 
     }
 
