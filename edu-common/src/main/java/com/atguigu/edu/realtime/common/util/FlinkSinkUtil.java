@@ -11,56 +11,79 @@ package com.atguigu.edu.realtime.common.util;
  */
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.atguigu.edu.realtime.common.constant.Constant;
+import org.apache.doris.flink.cfg.DorisExecutionOptions;
+import org.apache.doris.flink.cfg.DorisOptions;
+import org.apache.doris.flink.cfg.DorisReadOptions;
+import org.apache.doris.flink.sink.DorisSink;
+import org.apache.doris.flink.sink.writer.serializer.SimpleStringSerializer;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.connector.base.DeliveryGuarantee;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import javax.annotation.Nullable;
+import java.util.Properties;
+
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
 
 public class FlinkSinkUtil {
 
-    public static String getDorisSinkDDL( String database , String table) {
+    public static DorisSink<String> getDorisSink(String database , String table ){
+        // 上游是 json 写入时，需要开启配置
+        Properties props = new Properties();
+        props.setProperty("format", "json");
+        props.setProperty("read_json_by_line", "true");
 
-        return " WITH ( \n" +
-                "       'connector' = 'doris'  \n" +
-                "     , 'fenodes' = '" + DORIS_FENODES +"'  \n" +
-                "     , 'table.identifier' = '" + database + "." + table +"' \n" +
-                "     , 'username' = '" + DORIS_USERNAME + "'  \n" +
-                "     , 'password' = '" + DORIS_PASSWORD + "'  \n" +
-                "     , 'sink.enable-2pc' = 'false'  \n" +
-                " ) ";
+        DorisSink<String> dorisSink = DorisSink.<String>builder()
+                .setDorisReadOptions(
+                        DorisReadOptions.builder().build()
+                )
+                .setDorisExecutionOptions(
+                        DorisExecutionOptions.builder()
+                                .setLabelPrefix("label-prefix" + System.currentTimeMillis())
+                                .setStreamLoadProp(props)
+                                .setDeletable(true)
+                                .enable2PC()
+                                //.disable2PC()
+                                .build()
+                )
+                .setDorisOptions(
+                        DorisOptions.builder()
+                                .setFenodes( Constant.DORIS_FENODES )
+                                .setTableIdentifier(database + "." + table )
+                                .setUsername(Constant.DORIS_USERNAME)
+                                .setPassword(Constant.DORIS_PASSWORD)
+                                .build()
+                )
+                .setSerializer(new SimpleStringSerializer())
+                .build();
+
+        return dorisSink ;
     }
 
-    public static String getUpersertKafkaSinkDDL( String topic){
-        return  " WITH ( \n " +
-                " 'connector' = 'upsert-kafka' " +
-                " , 'topic' = '" + topic + "' " +
-                " , 'properties.bootstrap.servers' = '" + KAFKA_BROKERS +  "' " +
-                " , 'key.format' = 'json' " +
-                " , 'value.format' = 'json' " +
-                " ) ";
-    }
 
-    public static String getKafkaSinkDDL( String topic){
-        return  " WITH ( \n " +
-                " 'connector' = 'kafka' " +
-                " , 'topic' = '" + topic + "' " +
-                " , 'properties.bootstrap.servers' = '" + KAFKA_BROKERS +  "' " +
-                " , 'format' = 'json' " +
-                " , 'sink.delivery-guarantee' = 'at-least-once' " +
-//                         " , 'sink.delivery-guarantee' = 'exactly-once' " +
+    public static KafkaSink<String> getKafkaSink( String topic ){
+        KafkaSink<String> kafkaSink = KafkaSink.<String>builder()
+                .setBootstrapServers(Constant.KAFKA_BROKERS)
+                .setRecordSerializer(
+                        KafkaRecordSerializationSchema.builder()
+                                .setTopic( topic )
+                                .setValueSerializationSchema(
+                                        new SimpleStringSchema()
+                                )
+                                .build()
+                )
+                .setDeliveryGuarantee( DeliveryGuarantee.AT_LEAST_ONCE)
+                //.setDeliveryGuarantee( DeliveryGuarantee.EXACTLY_ONCE)
+                //.setTransactionalIdPrefix("gmall_realtime_" + System.currentTimeMillis())
+                //  检查点超时时间 <=  生产者事务超时时间 <= broker事务超时时间
+                //.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG , "600000")
+                .build();
 
-                " ) ";
-    }
-
-    public static String getKafkaSourceDDL(String topic,String groupId) {
-
-        return "  WITH ( \n " +
-                " 'connector' = 'kafka' " +
-                " , 'topic' = '" + topic + "' " +
-                " , 'properties.bootstrap.servers' = '" + KAFKA_BROKERS +  "' " +
-                " , 'properties.group.id' = '"+ groupId + "' " +
-                " , 'scan.startup.mode' = 'earliest-offset' " +
-//                " , 'scan.startup.mode' = 'latest-offset' " +
-                " , 'format' = 'json' " +
-                " , 'json.ignore-parse-errors' = 'true' " +
-                // " , 'isolation.level' = 'read_committed' " +
-                " ) ";
+        return kafkaSink ;
     }
 }
