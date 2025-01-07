@@ -15,7 +15,7 @@
         <module>edu-dwd-base-log</module>
         <module>edu-dwd-base-db</module>
         <module>edu-dwd-trade-order-detail</module>
-        <module>edu-dwd-user-login</module>
+        <module>edu-dwd-trade-pay-sus-detail</module>
     </modules>
 
     <properties>
