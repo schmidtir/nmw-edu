@@ -16,6 +16,8 @@
         <module>edu-dwd-base-db</module>
         <module>edu-dwd-trade-order-detail</module>
         <module>edu-dwd-trade-pay-sus-detail</module>
+        <module>edu-dwd-traffic-unique-visit-detail</module>
+        <module>edu-dwd-traffic-user-jump-detail</module>
     </modules>
 
     <properties>
