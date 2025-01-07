@@ -24,7 +24,7 @@ import static com.atguigu.edu.realtime.common.constant.Constant.*;
 public class DwdTradeOrderDetailApp extends BaseSqlApp {
     public static void main(String[] args) throws Exception {
         new DwdTradeOrderDetailApp()
-                .start( 10017,3, "dwd_trade_order_detail_app_t");
+                .start( 10017,3, "dwd_trade_order_detail_app");
     }
     @Override
     protected void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env) throws Exception {

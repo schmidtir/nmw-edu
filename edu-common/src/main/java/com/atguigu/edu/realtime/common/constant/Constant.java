@@ -81,5 +81,20 @@ public class Constant {
 
 
     public static final String DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW = "dws_traffic_source_keyword_page_view_window";
+    public static final String DWS_TRAFFIC_VC_SOURCE_AR_IS_NEW_PAGE_VIEW_WINDOW = "dws_traffic_vc_source_ar_is_new_page_view_window";
+    public static final String DWS_TRAFFIC_PAGE_VIEW_WINDOW = "dws_traffic_page_view_window";
+    public static final String DWS_STUDY_CHAPTER_PLAY_WINDOW = "dws_study_chapter_play_window";
+    public static final String DWS_USER_USER_LOGIN_WINDOW = "dws_user_user_login_window";
+    public static final String DWS_USER_USER_REGISTER_WINDOW = "dws_user_user_register_window";
+    public static final String DWS_TRADE_CART_ADD_WINDOW = "dws_trade_cart_add_window";
+    public static final String DWS_TRADE_ORDER_DETAIL_WINDOW = "dws_trade_order_detail_window";
+    public static final String DWS_TRADE_PAY_SUS_WINDOW = "dws_trade_pay_sus_window";
+    public static final String DWS_TRADE_ORDER_COURSES_WINDOW = "dws_trade_order_courses_window";
+    public static final String DWS_TRADE_ORDER_SOURCES_WINDOW = "dws_trade_order_sources_window";
+    public static final String DWS_TRADE_ORDER_PROVINCES_WINDOW = "dws_trade_order_provinces_window";
+    public static final String DWS_INTERACTION_COURSE_REVIEW_WINDOW = "dws_interaction_course_review_window";
+    public static final String DWS_EXAM_PAPER_TEST_WINDOW = "dws_exam_paper_test_window";
+    public static final String DWS_EXAM_SCORE_TEST_WINDOW = "dws_exam_score_test_window";
+    public static final String DWS_EXAM_QUESTIONS_TEST_WINDOW = "dws_exam_questions_test_window";
 
 }
