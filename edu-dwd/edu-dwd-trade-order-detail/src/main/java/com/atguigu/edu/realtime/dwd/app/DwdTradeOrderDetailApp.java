@@ -27,7 +27,7 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                 .start( 10017,3, "dwd_trade_order_detail_app");
     }
     @Override
-    protected void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env) throws Exception {
+    protected void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env)  {
 
         // 设置TTL
         streamTableEnv.getConfig().setIdleStateRetention( Duration.ofSeconds( 15 ) );
