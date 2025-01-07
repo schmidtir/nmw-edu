@@ -80,7 +80,6 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " , `data`['trade_body'] AS trade_body  \n" +
                         " , `data`['session_id'] AS session_id  \n" +
                         " , `data`['province_id'] AS province_id  \n" +
-                        " , date_format( `data`['create_time'], 'yyyy-MM--dd' ) AS create_date \n" +
                         " , ts \n" +
                         " from topic_db \n" +
                         " WHERE `database` = '" + DB_NAME + "'  \n" +
@@ -116,14 +115,12 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " , od.final_amount AS final_amount \n" +
                         " , od.create_time AS create_time \n" +
                         " , od.create_date AS create_date \n" +
-                        " , od.ts AS ts \n" +
-                        " , oi.user_id AS user_id \n" +
                         " , oi.out_trade_no AS out_trade_no \n" +
                         " , oi.trade_body AS trade_body \n" +
                         " , oi.session_id AS session_id \n" +
                         " , oi.province_id AS province_id \n" +
-                        " , oi.create_date AS create_date \n" +
                         " , ol.source_id AS source_id \n" +
+                        " , od.ts AS ts \n" +
                         " FROM order_detail AS od \n" +
                         " INNER JOIN order_info AS oi \n" +
                         " ON od.order_id = oi.id \n" +
@@ -131,7 +128,7 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " ON oi.id = ol.session_id \n"
         );
 
-        resultTable.execute().print();
+        // resultTable.execute().print();
 
         // 创建 Kafka upsert
         streamTableEnv.executeSql(
@@ -146,14 +143,12 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " , final_amount STRING \n" +
                         " , create_time STRING \n" +
                         " , create_date STRING \n" +
-                        " , ts STRING \n" +
-                        " , user_id STRING \n" +
                         " , out_trade_no STRING \n" +
                         " , trade_body STRING \n" +
                         " , session_id STRING \n" +
                         " , province_id STRING \n" +
-                        " , create_date STRING \n" +
                         " , source_id STRING \n" +
+                        " , ts BIGINT \n" +
                         " , PRIMARY KEY (id) NOT ENFORCED \n" +
                         " ) " + FlinkSqlUtil.getUpersertKafkaSinkDDL( TOPIC_DWD_TRADE_ORDER_DETAIL)
         );
