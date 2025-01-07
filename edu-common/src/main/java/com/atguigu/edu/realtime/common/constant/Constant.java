@@ -24,7 +24,7 @@ public class Constant {
     public static final String MAXWELL_TYPE_UPDATE = "update";
     public static final String MAXWELL_TYPE_BOOTSTRAP_INSERT = "bootstrap-insert";
 
-    public static final String HBASE_ZOOKEEPER_QUORUM = "hadoop101,hadoop102,hadoop104";
+    public static final String HBASE_ZOOKEEPER_QUORUM = "hadoop103,hadoop104,hadoop105";
 
     public static final String HBASE_NAMESPACE_DIM = "edu_realtime";
 
