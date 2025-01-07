@@ -26,7 +26,7 @@ public class FlinkSqlUtil {
                 " ) ";
     }
 
-    public static String getUpersertKafkaSinkDDL( String topic ){
+    public static String getUpersertKafkaSinkDDL( String topic){
         return  " WITH ( \n " +
                 " 'connector' = 'upsert-kafka' " +
                 " , 'topic' = '" + topic + "' " +

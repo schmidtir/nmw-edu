@@ -21,7 +21,7 @@ public class testBaseSqlApp extends BaseSqlApp {
                 .start( 10003,3, "test_base_sql_app");
     }
     @Override
-    protected void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env)  {
+    protected void handle(StreamTableEnvironment streamTableEnv, StreamExecutionEnvironment env) throws Exception {
 
         readOdsTopicDb( streamTableEnv, "test_base_sql_app" );
 
