@@ -63,7 +63,7 @@ public abstract class BaseApp {
 
         // 2. 检查点配置
         env.setStateBackend( new HashMapStateBackend() );
-        env.enableCheckpointing(5000L);
+        env.enableCheckpointing(10000L);
 
         env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
 

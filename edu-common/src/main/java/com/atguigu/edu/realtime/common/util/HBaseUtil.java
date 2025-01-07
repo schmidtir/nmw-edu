@@ -234,7 +234,7 @@ public class HBaseUtil {
             table.close();
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println( " ⚠️ HBase 写入 " + namespaceName + "." + tableName + " 表，rowkey 为 " + rowKey + " 的数据失败！⚠️" );
+            throw new RuntimeException( " ⚠️ HBase 写入 " + namespaceName + "." + tableName + " 表，rowkey 为 " + rowKey + " 的数据失败！⚠️");
         }
     }
 
