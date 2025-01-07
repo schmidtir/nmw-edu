@@ -136,17 +136,18 @@ public class DwdBaseLogApp extends BaseApp{
         OutputTag<String> startTag = new OutputTag<>("startTag", Types.STRING);
         // 交易域日志错误
         OutputTag<String> errTag = new OutputTag<>("errTag", Types.STRING);
-        // 交易域日志页面数据
-        OutputTag<String> pageTag = new OutputTag<>("pageTag", Types.STRING);
+        // 交易域日志播放数据
+        OutputTag<String> appVideoTag = new OutputTag<>("appVideoTag", Types.STRING);
         // 交易域日志行动数据
         OutputTag<String> actionTag = new OutputTag<>("actionTag", Types.STRING);
         // 交易域日志展示数据
         OutputTag<String> displayTag = new OutputTag<>("displayTag", Types.STRING);
 
-        SingleOutputStreamOperator<Object> splitDs = fixIsNewDs.process(
-                new ProcessFunction<JSONObject, Object>() {
+        SingleOutputStreamOperator<String> splitDs = fixIsNewDs.process(
+                new ProcessFunction<JSONObject, String>() {
+
                     @Override
-                    public void processElement(JSONObject value, ProcessFunction<JSONObject, Object>.Context ctx, Collector<Object> out) throws Exception {
+                    public void processElement(JSONObject value, ProcessFunction<JSONObject, String>.Context ctx, Collector<String> out) throws Exception {
                         // 分流错误数据
                         JSONObject errJsonObj = value.getJSONObject("err");
                         if (errJsonObj != null) {
@@ -159,52 +160,54 @@ public class DwdBaseLogApp extends BaseApp{
                         JSONObject startJsonObj = value.getJSONObject("start");
                         if (startJsonObj != null) {
                             ctx.output(startTag, value.toJSONString());
-                        }
+                        } else {
+                            // 获取 "common" 字段
+                            JSONObject common = value.getJSONObject("common");
+                            // 获取 "ts"
+                            Long ts = value.getLong("ts");
+                            JSONObject appVideo = value.getJSONObject("appVideo");
 
-                        JSONObject pageJsonObj = value.getJSONObject("page");
-                        JSONObject commonJsonObj = value.getJSONObject("common");
-                        Long ts = value.getLong("ts");
-                        if (pageJsonObj != null) {
-                            // 分流动作数据
-                            JSONArray actionJsonArr = value.getJSONArray("actions");
-                            if (actionJsonArr != null && actionJsonArr.size() > 0 ) {
-                                for (int i = 0; i < actionJsonArr.size(); i++) {
-                                    JSONObject actionJsonObj = actionJsonArr.getJSONObject(i);
-                                    // 将 action ， page ， common ， ts 处理成一条 json 数据
-                                    JSONObject newActionJsonObj = new JSONObject();
-                                    newActionJsonObj.put("action", actionJsonObj);
-                                    newActionJsonObj.put("page", pageJsonObj);
-                                    newActionJsonObj.put("common", commonJsonObj);
+                            // 5.2.3 收集播放数据
+                            if (appVideo != null) {
+                                ctx.output(appVideoTag, value.toJSONString());
+                            } else {
 
-                                    ctx.output(actionTag, newActionJsonObj.toJSONString());
+                                // 获取 "page" 字段
+                                JSONObject page = value.getJSONObject("page");
+
+                                // 5.2.4 收集曝光数据
+                                JSONArray displays = value.getJSONArray("displays");
+                                if (displays != null) {
+                                    for (int i = 0; i < displays.size(); i++) {
+                                        JSONObject display = displays.getJSONObject(i);
+                                        JSONObject displayObj = new JSONObject();
+                                        displayObj.put("display", display);
+                                        displayObj.put("common", common);
+                                        displayObj.put("page", page);
+                                        displayObj.put("ts", ts);
+                                        ctx.output(displayTag, displayObj.toJSONString());
+                                    }
                                 }
+
+                                // 5.2.5 收集动作数据
+                                JSONArray actions = value.getJSONArray("actions");
+                                if (actions != null) {
+                                    for (int i = 0; i < actions.size(); i++) {
+                                        JSONObject action = actions.getJSONObject(i);
+                                        JSONObject actionObj = new JSONObject();
+                                        actionObj.put("action", action);
+                                        actionObj.put("common", common);
+                                        actionObj.put("page", page);
+                                        ctx.output(actionTag, actionObj.toJSONString());
+                                    }
+                                }
+
+                                // 5.2.6 收集页面数据
+                                value.remove("displays");
+                                value.remove("actions");
+                                out.collect(value.toJSONString());
                             }
-                            // 移除
-                            value.remove("actions");
                         }
-
-                        // 分流曝光数据
-                        JSONArray displayJsonArr = value.getJSONArray("displays");
-                        if (displayJsonArr != null && displayJsonArr.size() > 0) {
-                            for (int i = 0; i < displayJsonArr.size(); i++) {
-                                JSONObject displayJsonObj = displayJsonArr.getJSONObject(i);
-                                // 将 action 、 page 、 common 、ts 处理成一条json数据
-                                JSONObject newDisplayJsonObj = new JSONObject();
-                                newDisplayJsonObj.put("display", displayJsonObj);
-                                newDisplayJsonObj.put("page", pageJsonObj);
-                                newDisplayJsonObj.put("common", commonJsonObj);
-                                newDisplayJsonObj.put("ts", ts);
-
-                                //输出到曝光的侧输出流中
-                                ctx.output(displayTag, newDisplayJsonObj.toJSONString());
-                            }
-
-                            // 移除掉
-                            value.remove("displays");
-                        }
-
-                        // 分流页面数据
-                        ctx.output(pageTag, value.toJSONString());
                     }
                 }
         );
@@ -214,7 +217,7 @@ public class DwdBaseLogApp extends BaseApp{
         SideOutputDataStream<String> startDs = splitDs.getSideOutput(startTag);
         SideOutputDataStream<String> actionDs = splitDs.getSideOutput(actionTag);
         SideOutputDataStream<String> displayDs = splitDs.getSideOutput(displayTag);
-        SideOutputDataStream<String> pageDs = splitDs.getSideOutput(pageTag);
+        SideOutputDataStream<String> appVideoDs = splitDs.getSideOutput(appVideoTag);
 
         // 没问题
         /*errDs.print("ERR");
@@ -224,11 +227,12 @@ public class DwdBaseLogApp extends BaseApp{
         pageDs.print("PAGE");*/
 
         // 写入 Kafka 对应主题中
+        splitDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_PAGE));
         errDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_ERR));
         startDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_START));
         actionDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_ACTION));
         displayDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_DISPLAY));
-        pageDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_PAGE));
+        appVideoDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_APPVIDEO));
 
     }
 }

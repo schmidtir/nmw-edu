@@ -69,6 +69,8 @@ public class Constant {
     public static final String TOPIC_DWD_TRAFFIC_PAGE = "dwd_traffic_page";
     public static final String TOPIC_DWD_TRAFFIC_ACTION = "dwd_traffic_action";
     public static final String TOPIC_DWD_TRAFFIC_DISPLAY = "dwd_traffic_display";
+    public static final String TOPIC_DWD_TRAFFIC_APPVIDEO = "dwd_traffic_appvideo";
+
     public static final String TOPIC_DWD_TRAFFIC_UNI_VISITOR_DETAIL = "dwd_traffic_uni_visitor_detail";
     public static final String TOPIC_DWD_TRAFFIC_USER_JUMP = "dwd_traffic_user_jump";
     public static final String TOPIC_DWD_STUDY_PLAY = "dwd_study_play";
