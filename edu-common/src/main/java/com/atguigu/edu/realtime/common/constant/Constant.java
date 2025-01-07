@@ -64,6 +64,18 @@ public class Constant {
     public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop101:3306/edu_config";
 
     public static final String TOPIC_DWD_TRAFFIC_DIRTY = "dwd_traffic_dirty";
+    public static final String TOPIC_DWD_TRAFFIC_START = "dwd_traffic_start";
+    public static final String TOPIC_DWD_TRAFFIC_ERR = "dwd_traffic_err";
+    public static final String TOPIC_DWD_TRAFFIC_PAGE = "dwd_traffic_page";
+    public static final String TOPIC_DWD_TRAFFIC_ACTION = "dwd_traffic_action";
+    public static final String TOPIC_DWD_TRAFFIC_DISPLAY = "dwd_traffic_display";
+    public static final String TOPIC_DWD_TRAFFIC_UNI_VISITOR_DETAIL = "dwd_traffic_uni_visitor_detail";
+    public static final String TOPIC_DWD_TRAFFIC_USER_JUMP = "dwd_traffic_user_jump";
+    public static final String TOPIC_DWD_STUDY_PLAY = "dwd_study_play";
+    public static final String TOPIC_DWD_USER_LOGIN = "dwd_user_login";
+    public static final String TOPIC_DWD_USER_REGISTER = "dwd_user_register";
+    public static final String TOPIC_DWD_TRADE_ORDER_DETAIL = "dwd_trade_order_detail";
+    public static final String TOPIC_DWD_TRADE_PAY_SUS_DETAIL = "dwd_trade_pay_sus_detail";
 
 
     public static final String DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW = "dws_traffic_source_keyword_page_view_window";
