@@ -63,6 +63,10 @@ public class Constant {
     public static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop101:3306/edu_config";
 
+    public static final String KEYWORD_SEARCH = "SEARCH";
+    public static final String KEYWORD_CART="CART";
+    public static final String KEYWORD_ORDER="ORDER";
+
     public static final String TOPIC_DWD_TRAFFIC_DIRTY = "dwd_traffic_dirty";
     public static final String TOPIC_DWD_TRAFFIC_START = "dwd_traffic_start";
     public static final String TOPIC_DWD_TRAFFIC_ERR = "dwd_traffic_err";
