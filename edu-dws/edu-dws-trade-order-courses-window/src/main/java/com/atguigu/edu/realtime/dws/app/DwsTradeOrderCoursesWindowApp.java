@@ -15,19 +15,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.TradeOrderCoursesWindowBean;
 import com.atguigu.edu.realtime.common.function.DimRichMapFunction;
+import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
+import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
-import org.apache.flink.api.common.state.ValueState;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessAllWindowFunction;
-import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -36,7 +33,7 @@ import org.apache.flink.util.Collector;
 import java.math.BigDecimal;
 import java.time.Duration;
 
-import static com.atguigu.edu.realtime.common.constant.Constant.TOPIC_DWD_TRADE_ORDER_DETAIL;
+import static com.atguigu.edu.realtime.common.constant.Constant.*;
 
 public class DwsTradeOrderCoursesWindowApp extends BaseApp {
     public static void main(String[] args) {
@@ -130,7 +127,7 @@ public class DwsTradeOrderCoursesWindowApp extends BaseApp {
         // windowDs.print("🪟🪟");
 
         // 关联维度信息
-        windowDs.map(
+        SingleOutputStreamOperator<TradeOrderCoursesWindowBean> resultDs = windowDs.map(
                 new DimRichMapFunction<TradeOrderCoursesWindowBean>() {
                     @Override
                     public String getTableName() {
@@ -150,9 +147,48 @@ public class DwsTradeOrderCoursesWindowApp extends BaseApp {
 
                     }
                 }
+        ).map(
+                new DimRichMapFunction<TradeOrderCoursesWindowBean>() {
+                    @Override
+                    public String getTableName() {
+                        return "dim_base_subject_info";
+                    }
+
+                    @Override
+                    public String getRowKey(TradeOrderCoursesWindowBean bean) {
+                        return bean.getSubjectId();
+                    }
+
+                    @Override
+                    public void addDim(TradeOrderCoursesWindowBean bean, JSONObject dimJsonObj) {
+                        bean.setSubjectName(dimJsonObj.getString("subject_name"));
+                        bean.setCategoryId(dimJsonObj.getString("category_id"));
+
+                    }
+                }
+        ).map(
+                new DimRichMapFunction<TradeOrderCoursesWindowBean>() {
+                    @Override
+                    public String getTableName() {
+                        return "dim_base_category_info";
+                    }
+
+                    @Override
+                    public String getRowKey(TradeOrderCoursesWindowBean bean) {
+                        return bean.getCategoryId();
+                    }
+
+                    @Override
+                    public void addDim(TradeOrderCoursesWindowBean bean, JSONObject dimJsonObj) {
+                        bean.setCategoryName(dimJsonObj.getString("category_name"));
+                    }
+                }
         );
 
-        // cnameDs.print("🧊🧊");
+        // resultDs.print("🍎🍎");
+
+        resultDs.map( new DorisMapFunction<>() )
+                .sinkTo( FlinkSinkUtil.getDorisSink( DORIS_DB_NAME, DWS_TRADE_ORDER_COURSES_WINDOW) );
 
 
     }
