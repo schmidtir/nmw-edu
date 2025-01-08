@@ -17,6 +17,8 @@
         <module>edu-dwd-trade-order-detail</module>
         <module>edu-dwd-user-user-login</module>
         <module>edu-dwd-study-play</module>
+        <module>edu-dwd-traffic-unique-visit-detail</module>
+        <module>edu-dwd-traffic-user-jump-detail</module>
     </modules>
 
     <properties>
