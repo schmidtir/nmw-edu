@@ -78,6 +78,12 @@ public class Constant {
     public static final String TOPIC_DWD_USER_REGISTER = "dwd_user_register";
     public static final String TOPIC_DWD_TRADE_ORDER_DETAIL = "dwd_trade_order_detail";
     public static final String TOPIC_DWD_TRADE_PAY_SUS_DETAIL = "dwd_trade_pay_sus_detail";
+    public static final String TOPIC_DWD_TRADE_CART_ADD = "dwd_trade_cart_add";
+    public static final String TOPIC_DWD_EXAM_TEST_PAPER = "dwd_exam_test_paper";
+    public static final String TOPIC_DWD_EXAM_TEST_EXAM_QUESTION = "dwd_exam_test_exam_question";
+    public static final String TOPIC_DWD_INTERACTION_FAVOR_ADD = "dwd_interaction_favor_add";
+    public static final String TOPIC_DWD_INTERACTION_COMMENT_INFO = "dwd_interaction_comment_info";
+    public static final String TOPIC_DWD_INTERACTION_REVIEW = "dwd_interaction_review";
 
 
     public static final String DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW = "dws_traffic_source_keyword_page_view_window";
