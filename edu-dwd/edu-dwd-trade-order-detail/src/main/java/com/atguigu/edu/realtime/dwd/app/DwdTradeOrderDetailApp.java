@@ -125,7 +125,7 @@ public class DwdTradeOrderDetailApp extends BaseSqlApp {
                         " INNER JOIN order_info AS oi \n" +
                         " ON od.order_id = oi.id \n" +
                         " Left JOIN order_log As ol \n" +
-                        " ON oi.id = ol.session_id \n"
+                        " ON oi.session_id = ol.session_id \n"
         );
 
         // resultTable.execute().print();

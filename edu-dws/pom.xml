@@ -17,6 +17,7 @@
         <module>edu-dws-traffic-source-keyword-page-view-window</module>
         <module>edu-dws-trade-pay-sus-window</module>
         <module>edu-dws-trade-order-courses-window</module>
+        <module>edu-dws-trade-order-sources-window-app</module>
 
     </modules>
 
