@@ -1,5 +1,8 @@
 package com.atguigu.edu.realtime.common.util;
 
+import com.atguigu.edu.realtime.common.constant.Constant;
+import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
 
 /**
@@ -11,6 +14,17 @@ import static com.atguigu.edu.realtime.common.constant.Constant.*;
  * TODO
  */
 public class FlinkSqlUtil {
+
+    public static void createTopicDb(StreamTableEnvironment  tableEnv , String groupId ) {
+        tableEnv.executeSql("create table topic_db (" +
+                " `database` string ,\n" +
+                " `table` string ,\n" +
+                " `type` string ,\n" +
+                " `data` map<string,string>,\n" +
+                "`ts` string\n" +
+                ")" + getKafkaSourceDDL(TOPIC_DB , groupId)
+                );
+    }
 
     public static String getDorisSinkDDL( String database , String table) {
 

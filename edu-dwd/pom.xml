@@ -19,6 +19,7 @@
         <module>edu-dwd-study-play</module>
         <module>edu-dwd-traffic-unique-visit-detail</module>
         <module>edu-dwd-traffic-user-jump-detail</module>
+        <module>edu-dwd-traffic-user-regist</module>
         <module>edu-dwd-trade-pay-sus-detail</module>
     </modules>
 
