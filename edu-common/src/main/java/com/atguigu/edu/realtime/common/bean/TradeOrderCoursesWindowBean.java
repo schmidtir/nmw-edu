@@ -26,6 +26,8 @@ public class TradeOrderCoursesWindowBean {
 
     // 窗口结束时间
     String edt;
+    // 当天日期
+    String curDate;
 
     // 课程 ID
     String courseId;
