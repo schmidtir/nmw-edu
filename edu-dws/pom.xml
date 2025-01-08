@@ -14,6 +14,7 @@
     <modules>
         <module>edu-dws-trade-cart-add-window</module>
         <module>edu-dws-trade-order-detail-window</module>
+
     </modules>
 
     <properties>
