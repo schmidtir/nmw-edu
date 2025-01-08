@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/edu-report/pom.xml" />
         <option value="$PROJECT_DIR$/edu-dwd/edu-dwd-traffic-unique-visit-detail/pom.xml" />
         <option value="$PROJECT_DIR$/edu-dwd/edu-dwd-traffic-user-jump-detail/pom.xml" />
+        <option value="$PROJECT_DIR$/edu-dwd/edu-dwd-trade-pay-sus-detail/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
