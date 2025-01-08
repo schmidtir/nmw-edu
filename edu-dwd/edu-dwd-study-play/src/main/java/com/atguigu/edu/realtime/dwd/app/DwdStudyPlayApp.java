@@ -78,7 +78,7 @@ public class DwdStudyPlayApp extends BaseApp {
                                 (element, ts) -> element.getTs()
                         )
         );
-//        withWaterDs.print("WW");
+        withWaterDs.print("WW");
 
         //4.按会话 ID 分组
         KeyedStream<DwdLearnPlayBean, String> keyByDs = withWaterDs.keyBy(
@@ -114,11 +114,11 @@ public class DwdStudyPlayApp extends BaseApp {
                     }
                 }
         );
-        reduceDs.print("WNR");
+        //reduceDs.print("WNR");
 
         //6.结构转换
         SingleOutputStreamOperator<String> jsonMapDs = reduceDs.map(JSON::toJSONString);
-        //jsonMapDs.print("JM");
+        jsonMapDs.print("JM");
 
         //7.输出到 Kafka
         jsonMapDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_STUDY_PLAY));

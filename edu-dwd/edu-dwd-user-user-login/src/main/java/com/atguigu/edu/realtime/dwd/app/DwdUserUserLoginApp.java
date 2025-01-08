@@ -7,6 +7,7 @@ import com.atguigu.edu.realtime.common.bean.DwdUserUserLoginBean;
 import com.atguigu.edu.realtime.common.constant.Constant;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
 import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
+import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -48,23 +49,30 @@ public class DwdUserUserLoginApp extends BaseApp {
                     }
                 }
         );
-//        jsonObjectDs.print("JOB");
+       //jsonObjectDs.print("JOB");
 
         KeyedStream<JSONObject, String> keyByDs = jsonObjectDs.assignTimestampsAndWatermarks(
                 WatermarkStrategy.<JSONObject>forBoundedOutOfOrderness(Duration.ofSeconds(5L))
                         .withTimestampAssigner(
-                                (element, ts) -> element.getLong("ts")
+                                new SerializableTimestampAssigner<JSONObject>() {
+                                    @Override
+                                    public long extractTimestamp(JSONObject element, long recordTimestamp) {
+                                        //System.out.println(element.getLong("ts"));
+                                        return element.getLong("ts");
+                                    }
+                                }
                         )
         ).keyBy(
                 new KeySelector<JSONObject, String>() {
                     @Override
                     public String getKey(JSONObject value) throws Exception {
+                        //System.out.println(value.getJSONObject("common").getString("mid"));
                         return value.getJSONObject("common").getString("mid");
                     }
                 }
         );
 
-//        keyByDs.print("KEYBY");
+        // keyByDs.print("KEYBY");
 
         SingleOutputStreamOperator<JSONObject> processDs = keyByDs.process(
                 new KeyedProcessFunction<String, JSONObject, JSONObject>() {
@@ -93,7 +101,7 @@ public class DwdUserUserLoginApp extends BaseApp {
                         if (firstLoginDt == null) {
                             firstLoginDtState.update(jsonObject);
                             // 第一条数据到的时候开启定时器
-                            ctx.timerService().registerEventTimeTimer(ts + 10 * 1000L);
+                            ctx.timerService().registerEventTimeTimer(ts + 2 * 1000L);
                         } else {
                             Long lastTs = firstLoginDt.getLong("ts");
                             if (ts < lastTs) {
