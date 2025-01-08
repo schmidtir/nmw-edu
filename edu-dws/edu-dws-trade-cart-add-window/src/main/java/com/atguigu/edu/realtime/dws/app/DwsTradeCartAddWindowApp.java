@@ -15,7 +15,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.DwsTradeCartAddWindowBean;
+import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
+import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.state.StateTtlConfig;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
@@ -26,7 +30,12 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.functions.windowing.ProcessAllWindowFunction;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
+import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
+
+import java.time.Duration;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
 
@@ -105,12 +114,49 @@ public class DwsTradeCartAddWindowApp extends BaseApp {
                         }
                 );
 
-        beanDs
+        // beanDs.print("🫛🫛");
 
         // 设置水位线
+        SingleOutputStreamOperator<DwsTradeCartAddWindowBean> tsAndWaterMarkDs = beanDs.assignTimestampsAndWatermarks(
+                WatermarkStrategy.<DwsTradeCartAddWindowBean>forBoundedOutOfOrderness(Duration.ofSeconds(3L))
+                        .withTimestampAssigner(
+                                (ele, ts) -> ele.getTs()
+                        )
+        );
+
         // 开窗聚合
+        SingleOutputStreamOperator<DwsTradeCartAddWindowBean> windowDs = tsAndWaterMarkDs.windowAll(
+                TumblingEventTimeWindows.of(org.apache.flink.streaming.api.windowing.time.Time.seconds(10))
+        ).reduce(
+                new ReduceFunction<DwsTradeCartAddWindowBean>() {
+
+                    @Override
+                    public DwsTradeCartAddWindowBean reduce(DwsTradeCartAddWindowBean value1, DwsTradeCartAddWindowBean value2) throws Exception {
+                        value1.setCartAddUvCount(value1.getCartAddUvCount() + value2.getCartAddUvCount());
+                        return value1;
+                    }
+                }
+                ,
+                new ProcessAllWindowFunction<DwsTradeCartAddWindowBean, DwsTradeCartAddWindowBean, TimeWindow>() {
+                    @Override
+                    public void process(ProcessAllWindowFunction<DwsTradeCartAddWindowBean, DwsTradeCartAddWindowBean, TimeWindow>.Context context
+                            , Iterable<DwsTradeCartAddWindowBean> elements
+                            , Collector<DwsTradeCartAddWindowBean> out) throws Exception {
+
+                        DwsTradeCartAddWindowBean next = elements.iterator().next();
+                        next.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
+                        next.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
+                        next.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
+                        out.collect(next);
+
+                    }
+                }
+        );
+        //windowDs.print("🪟🪟");
 
         // 数据写入doris
+        windowDs.map( new DorisMapFunction<>() )
+                .sinkTo( FlinkSinkUtil.getDorisSink( DORIS_DB_NAME, DWS_TRADE_CART_ADD_WINDOW ) );
 
     }
 }
