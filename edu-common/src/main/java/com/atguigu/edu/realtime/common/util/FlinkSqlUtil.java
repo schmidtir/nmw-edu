@@ -70,8 +70,8 @@ public class FlinkSqlUtil {
                 " , 'topic' = '" + topic + "' " +
                 " , 'properties.bootstrap.servers' = '" + KAFKA_BROKERS +  "' " +
                 " , 'properties.group.id' = '"+ groupId + "' " +
-                " , 'scan.startup.mode' = 'earliest-offset' " +
-//                " , 'scan.startup.mode' = 'latest-offset' " +
+//                " , 'scan.startup.mode' = 'earliest-offset' " +
+                " , 'scan.startup.mode' = 'latest-offset' " +
                 " , 'format' = 'json' " +
                 " , 'json.ignore-parse-errors' = 'true' " +
                 // " , 'isolation.level' = 'read_committed' " +

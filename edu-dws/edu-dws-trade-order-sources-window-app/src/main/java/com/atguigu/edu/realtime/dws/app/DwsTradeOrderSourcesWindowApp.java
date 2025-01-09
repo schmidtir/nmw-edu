@@ -240,7 +240,7 @@ public class DwsTradeOrderSourcesWindowApp extends BaseApp {
                 }
         );
 
-        resultDs.print("🍎🍎🍎");
+        // resultDs.print("🍎🍎🍎");
 
 
         resultDs.map( new DorisMapFunction<>() )

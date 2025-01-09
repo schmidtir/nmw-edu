@@ -63,10 +63,10 @@ public abstract class BaseApp {
 
         // 2. 检查点配置
 //        env.setStateBackend( new HashMapStateBackend() );
-//        env.enableCheckpointing(10000L);
-//
-//        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
-//
+        env.enableCheckpointing(10000L);
+
+        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
+
 //        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckAndgroupId );
 //
 //        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
