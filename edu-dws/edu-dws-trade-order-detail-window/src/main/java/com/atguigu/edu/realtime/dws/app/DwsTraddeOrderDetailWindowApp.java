@@ -40,7 +40,7 @@ import static com.atguigu.edu.realtime.common.constant.Constant.*;
 public class DwsTraddeOrderDetailWindowApp extends BaseApp {
     public static void main(String[] args) {
         new DwsTraddeOrderDetailWindowApp()
-                .start(10028, 3, "", TOPIC_DWD_TRADE_ORDER_DETAIL);
+                .start(10028, 3, "Dws_Trade_Order_Detail_Window_App", TOPIC_DWD_TRADE_ORDER_DETAIL);
     }
     @Override
     public void handle(StreamExecutionEnvironment env, DataStreamSource<String> ds) {
