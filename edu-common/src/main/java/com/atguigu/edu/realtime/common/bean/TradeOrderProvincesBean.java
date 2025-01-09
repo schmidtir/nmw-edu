@@ -39,6 +39,9 @@ public class TradeOrderProvincesBean {
     // 用户 ID
     @JSONField(serialize=false)
     String userId;
+    // 订单 ID
+    @JSONField(serialize=false)
+    String orderId;
 
     // 订单总额
     BigDecimal orderTotalAmount;
