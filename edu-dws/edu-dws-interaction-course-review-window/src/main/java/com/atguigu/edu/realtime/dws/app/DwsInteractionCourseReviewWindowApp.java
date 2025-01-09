@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.DwsInteractionCourseReviewWindowBean;
 import com.atguigu.edu.realtime.common.constant.Constant;
+import com.atguigu.edu.realtime.common.function.DimRichMapFunction;
 import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
 import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
@@ -90,6 +91,7 @@ public class DwsInteractionCourseReviewWindowApp extends BaseApp {
                         //补充信息
                         dwsInteractionCourseReviewWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsInteractionCourseReviewWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
+                        dwsInteractionCourseReviewWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsInteractionCourseReviewWindowBean.setTs(System.currentTimeMillis());
 
                         out.collect(dwsInteractionCourseReviewWindowBean);
@@ -102,30 +104,49 @@ public class DwsInteractionCourseReviewWindowApp extends BaseApp {
 //        keyByAndWindowDs.print("KW");
 
         //4.维度关联
+//        SingleOutputStreamOperator<DwsInteractionCourseReviewWindowBean> courseNameDs = keyByAndWindowDs.map(
+//                new RichMapFunction<DwsInteractionCourseReviewWindowBean, DwsInteractionCourseReviewWindowBean>() {
+//                    Connection connection = null;
+//
+//                    @Override
+//                    public void open(Configuration parameters) throws Exception {
+//                        connection = HBaseUtil.getConnection();
+//                    }
+//
+//                    @Override
+//                    public void close() throws Exception {
+//                        HBaseUtil.closeConnection(connection);
+//                    }
+//
+//                    @Override
+//                    public DwsInteractionCourseReviewWindowBean map(DwsInteractionCourseReviewWindowBean bean) throws Exception {
+//                        String tableName = "dim_course_info";
+//                        String rowKey = bean.getCourseId();
+//
+//                        JSONObject jsonObject = HBaseUtil.getRow(connection, Constant.HBASE_NAMESPACE, tableName, rowKey);
+//
+//                        bean.setCourseName(jsonObject.getString("course_name"));
+//
+//                        return bean;
+//                    }
+//                }
+//        );
+
         SingleOutputStreamOperator<DwsInteractionCourseReviewWindowBean> courseNameDs = keyByAndWindowDs.map(
-                new RichMapFunction<DwsInteractionCourseReviewWindowBean, DwsInteractionCourseReviewWindowBean>() {
-                    Connection connection = null;
-
+                new DimRichMapFunction<DwsInteractionCourseReviewWindowBean>() {
                     @Override
-                    public void open(Configuration parameters) throws Exception {
-                        connection = HBaseUtil.getConnection();
+                    public String getTableName() {
+                        return "dim_course_info";
                     }
 
                     @Override
-                    public void close() throws Exception {
-                        HBaseUtil.closeConnection(connection);
+                    public String getRowKey(DwsInteractionCourseReviewWindowBean bean) {
+                        return bean.getCourseId();
                     }
 
                     @Override
-                    public DwsInteractionCourseReviewWindowBean map(DwsInteractionCourseReviewWindowBean bean) throws Exception {
-                        String tableName = "dim_course_info";
-                        String rowKey = bean.getCourseId();
-
-                        JSONObject jsonObject = HBaseUtil.getRow(connection, Constant.HBASE_NAMESPACE, tableName, rowKey);
-
-                        bean.setCourseName(jsonObject.getString("course_name"));
-
-                        return bean;
+                    public void addDim(DwsInteractionCourseReviewWindowBean bean, JSONObject dimJsonObj) {
+                        bean.setCourseName(dimJsonObj.getString("course_name"));
                     }
                 }
         );

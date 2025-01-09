@@ -1,6 +1,5 @@
 package com.atguigu.edu.realtime.common.bean;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DwsInteractionCourseReviewWindowBean {
+public class DwsExaminationQuestionAnswerWindowBean {
+
     // 窗口起始时间
     String stt;
 
@@ -20,22 +20,18 @@ public class DwsInteractionCourseReviewWindowBean {
     // 当天日期
     String curDate;
 
-    // 课程 ID
-    String courseId;
+    // 题目 ID
+    String question_id;
 
-    // 课程名称
-    String courseName;
+    // 题目内容
+    String question_txt;
 
-    // 用户总评分
-    Long reviewTotalStars;
+    // 正确答题次数
+    Long correctAnswerCount;
 
-    // 评价用户数
-    Long reviewUserCount;
-
-    // 好评用户数
-    Long goodReviewUserCount;
+    // 答题次数
+    Long answer_count;
 
     // 时间戳
-    @JSONField(serialize=false)
     Long ts;
 }

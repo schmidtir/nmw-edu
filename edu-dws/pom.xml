@@ -21,6 +21,8 @@
         <module>edu-dws-trade-pay-sus-window</module>
         <module>edu-dws-trade-order-courses-window</module>
         <module>edu-dws-trade-order-sources-window-app</module>
+        <module>edu-dws-exam-questions-test-window</module>
+        <module>edu-dws-user-user-register-window</module>
         <module>edu-dws-trade-order-provinces-window</module>
         <module>edu-dws-traffic-page-view-window</module>
 

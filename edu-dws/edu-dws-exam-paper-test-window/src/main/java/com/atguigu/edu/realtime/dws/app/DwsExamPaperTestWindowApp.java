@@ -92,6 +92,7 @@ public class DwsExamPaperTestWindowApp extends BaseApp {
                         //补充信息
                         dwsExaminationPaperExamWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsExaminationPaperExamWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
+                        dwsExaminationPaperExamWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsExaminationPaperExamWindowBean.setTs(System.currentTimeMillis());
 
                         out.collect(dwsExaminationPaperExamWindowBean);

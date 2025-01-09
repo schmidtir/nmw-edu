@@ -101,6 +101,7 @@ public class DwsExamScoreTestWindowApp extends BaseApp {
                         //补充信息
                         dwsExaminationPaperScoreDurationExamWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsExaminationPaperScoreDurationExamWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
+                        dwsExaminationPaperScoreDurationExamWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsExaminationPaperScoreDurationExamWindowBean.setTs(System.currentTimeMillis());
 
                         out.collect(dwsExaminationPaperScoreDurationExamWindowBean);
