@@ -12,7 +12,12 @@ package com.atguigu.edu.realtime.common.bean;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TrafficPageViewBean {
 
     // 窗口起始时间
