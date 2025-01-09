@@ -13,6 +13,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>edu-dws-trade-cart-add-window</module>
+        <module>edu-dws-interaction-course-review-window</module>
+        <module>edu-dws-exam-paper-test-window</module>
+        <module>edu-dws-exam-score-test-window</module>
     </modules>
 
     <properties>
