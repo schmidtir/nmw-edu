@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>edu-dws-trade-order-detail-window</artifactId>
+    <artifactId>edu-dws-traffic-source-keyword-page-view-window</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -63,6 +63,10 @@ public class Constant {
     public static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String MYSQL_URL_CONFIG = "jdbc:mysql://hadoop101:3306/edu_config";
 
+    public static final String KEYWORD_SEARCH = "SEARCH";
+    public static final String KEYWORD_CART="CART";
+    public static final String KEYWORD_ORDER="ORDER";
+
     public static final String TOPIC_DWD_TRAFFIC_DIRTY = "dwd_traffic_dirty";
     public static final String TOPIC_DWD_TRAFFIC_START = "dwd_traffic_start";
     public static final String TOPIC_DWD_TRAFFIC_ERR = "dwd_traffic_err";
@@ -95,7 +99,7 @@ public class Constant {
     public static final String DWS_TRADE_CART_ADD_WINDOW = "dws_trade_cart_add_window";
     public static final String DWS_TRADE_ORDER_DETAIL_WINDOW = "dws_trade_order_detail_window";
     public static final String DWS_TRADE_PAY_SUS_WINDOW = "dws_trade_pay_sus_window";
-    public static final String DWS_TRADE_ORDER_COURSES_WINDOW = "dws_trade_order_courses_window";
+    public static final String DWS_TRADE_ORDER_COURSES_WINDOW = "dws_trade_course_order_window";
     public static final String DWS_TRADE_ORDER_SOURCES_WINDOW = "dws_trade_order_sources_window";
     public static final String DWS_TRADE_ORDER_PROVINCES_WINDOW = "dws_trade_order_provinces_window";
     public static final String DWS_INTERACTION_COURSE_REVIEW_WINDOW = "dws_interaction_course_review_window";
