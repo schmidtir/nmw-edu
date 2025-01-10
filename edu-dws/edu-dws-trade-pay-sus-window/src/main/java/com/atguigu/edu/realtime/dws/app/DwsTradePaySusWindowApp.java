@@ -14,7 +14,9 @@ package com.atguigu.edu.realtime.dws.app;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.TradePaySusWindowBean;
+import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
+import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
@@ -27,7 +29,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessAllWindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
-import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
@@ -147,7 +148,7 @@ public class DwsTradePaySusWindowApp extends BaseApp {
 
         // 开窗聚合
         SingleOutputStreamOperator<TradePaySusWindowBean> windowDs = tsAndWaterMarkDs.windowAll(
-                TumblingEventTimeWindows.of(Time.seconds(10L))
+                TumblingEventTimeWindows.of(org.apache.flink.streaming.api.windowing.time.Time.seconds(10))
         ).reduce(
                 new ReduceFunction<TradePaySusWindowBean>() {
                     @Override
@@ -173,6 +174,12 @@ public class DwsTradePaySusWindowApp extends BaseApp {
                 }
         );
 
-        windowDs.print("🪟🪟");
+        //windowDs.print("🪟🪟");
+
+        windowDs.map(
+                new DorisMapFunction<>()
+        ).sinkTo(
+                FlinkSinkUtil.getDorisSink( DORIS_DB_NAME, DWS_TRADE_PAY_SUS_WINDOW )
+        );
     }
 }
