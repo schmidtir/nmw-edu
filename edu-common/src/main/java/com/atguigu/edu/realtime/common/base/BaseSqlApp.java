@@ -14,13 +14,11 @@ package com.atguigu.edu.realtime.common.base;
 import com.atguigu.edu.realtime.common.util.FlinkSqlUtil;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
-import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
-import static org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION;
 
 public abstract class BaseSqlApp {
 

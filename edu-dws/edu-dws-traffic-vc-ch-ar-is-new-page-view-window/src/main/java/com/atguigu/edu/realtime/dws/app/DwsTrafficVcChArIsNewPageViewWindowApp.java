@@ -30,7 +30,6 @@ import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 import org.apache.hadoop.hbase.client.Connection;
 
-import javax.swing.*;
 import java.time.Duration;
 
 /**
