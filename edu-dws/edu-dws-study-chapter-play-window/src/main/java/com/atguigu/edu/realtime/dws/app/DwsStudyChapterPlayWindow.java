@@ -192,11 +192,11 @@ public class DwsStudyChapterPlayWindow extends BaseApp {
                     }
                 }
         );
-        // chapterNameStream.print();
-        chapterNameStream.map(
+        chapterNameStream.print();
+        /*chapterNameStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(
                 FlinkSinkUtil.getDorisSink( Constant.DORIS_DB_NAME , Constant.DWS_STUDY_CHAPTER_PLAY_WINDOW)
-        );
+        );*/
     }
 }

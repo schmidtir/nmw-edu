@@ -143,6 +143,7 @@ public class DwdBaseLogApp extends BaseApp{
         // 交易域日志展示数据
         OutputTag<String> displayTag = new OutputTag<>("displayTag", Types.STRING);
 
+        OutputTag<String> pageTag = new OutputTag<>("pageTag", Types.STRING);
         SingleOutputStreamOperator<String> splitDs = fixIsNewDs.process(
                 new ProcessFunction<JSONObject, String>() {
 
@@ -223,8 +224,8 @@ public class DwdBaseLogApp extends BaseApp{
         /*errDs.print("ERR");
         startDs.print("START");
         actionDs.print("ACTION");
-        displayDs.print("DISPLAY");
-        pageDs.print("PAGE");*/
+        displayDs.print("DISPLAY");*/
+        splitDs.print("PAGE");
 
         // 写入 Kafka 对应主题中
         splitDs.sinkTo(FlinkSinkUtil.getKafkaSink(Constant.TOPIC_DWD_TRAFFIC_PAGE));

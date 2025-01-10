@@ -126,15 +126,16 @@ public class DwsUserLoginWindow extends BaseApp {
                         next.setStt(stt);
                         next.setEdt(edt);
                         next.setTs(System.currentTimeMillis());
+                        next.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
                         out.collect(next);
                     }
                 }
         );
         reduceStream.print();
-        reduceStream.map(
+        /*reduceStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(
                 FlinkSinkUtil.getDorisSink( Constant.DORIS_DB_NAME , Constant.DWS_USER_USER_LOGIN_WINDOW)
-        );
+        );*/
     }
 }

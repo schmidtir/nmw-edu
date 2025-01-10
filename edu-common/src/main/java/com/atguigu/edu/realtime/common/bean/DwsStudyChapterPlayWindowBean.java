@@ -1,5 +1,6 @@
 package com.atguigu.edu.realtime.common.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class DwsStudyChapterPlayWindowBean {
     // 窗口结束时间
     String edt;
     // 视频 ID
-
+    @JSONField(serialize=false)
     String videoId;
 
     // 章节 ID
@@ -34,7 +35,7 @@ public class DwsStudyChapterPlayWindowBean {
     String chapterName;
 
     // 用户 ID
-
+    @JSONField(serialize=false)
     String userId;
 
     // 播放次数

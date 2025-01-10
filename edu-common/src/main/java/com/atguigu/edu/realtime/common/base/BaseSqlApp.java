@@ -39,10 +39,10 @@ public abstract class BaseSqlApp {
         StreamTableEnvironment streamTableEnv = StreamTableEnvironment.create( env );
 
         //
-        env.setStateBackend( new HashMapStateBackend() );
-//        env.enableCheckpointing(5000 );
+//        env.setStateBackend( new HashMapStateBackend() );
+        env.enableCheckpointing(5000 );
 //
-//        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
+        env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
 //
 //        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckPath );
 //

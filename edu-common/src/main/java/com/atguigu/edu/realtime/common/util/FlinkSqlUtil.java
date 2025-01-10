@@ -34,9 +34,9 @@ public class FlinkSqlUtil {
                 "     , 'table.identifier' = '" + database + "." + table +"' \n" +
                 "     , 'username' = '" + DORIS_USERNAME + "'  \n" +
                 "     , 'password' = '" + DORIS_PASSWORD + "'  \n" +
-                "     , 'sink.enable-2pc' = 'false'  \n" +
-                // "     ,  'sink.enable-2pc' = 'true'  \n" +
-                // "     ,  'sink.label-prefix' = 'doris_label'  " +
+//                "     , 'sink.enable-2pc' = 'false'  \n" +
+                 "     ,  'sink.enable-2pc' = 'true'  \n" +
+                 "     ,  'sink.label-prefix' = 'doris_label'  " +
                 " ) ";
     }
 
