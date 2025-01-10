@@ -101,7 +101,7 @@ public class DwsExamPaperTestWindowApp extends BaseApp {
         );
 
         //4.维度关联
-        SingleOutputStreamOperator<DwsExaminationPaperExamWindowBean> mapDs = keyByAndWindowDs.map(
+        SingleOutputStreamOperator<DwsExaminationPaperExamWindowBean> withPaperDs = keyByAndWindowDs.map(
                 new RichMapFunction<DwsExaminationPaperExamWindowBean, DwsExaminationPaperExamWindowBean>() {
                     Connection connection = null;
 
@@ -119,21 +119,46 @@ public class DwsExamPaperTestWindowApp extends BaseApp {
                     public DwsExaminationPaperExamWindowBean map(DwsExaminationPaperExamWindowBean bean) throws Exception {
                         String tableName = "dim_test_paper";
                         String rowKey = bean.getPaperId();
-
                         JSONObject jsonObject = HBaseUtil.getRow(connection, Constant.HBASE_NAMESPACE, tableName, rowKey);
-
                         bean.setPaperTitle(jsonObject.getString("paper_title"));
                         bean.setCourseId(jsonObject.getString("course_id"));
-
                         return bean;
                     }
                 }
         );
 
-//        mapDs.print("MD");
+        // withPaperDs.print("MD");
 
+        SingleOutputStreamOperator<DwsExaminationPaperExamWindowBean> withCourceDs = withPaperDs.map(
+                new RichMapFunction<DwsExaminationPaperExamWindowBean, DwsExaminationPaperExamWindowBean>() {
+                    Connection connection = null;
+
+                    @Override
+                    public void open(Configuration parameters) throws Exception {
+                        connection = HBaseUtil.getConnection();
+                    }
+
+                    @Override
+                    public void close() throws Exception {
+                        HBaseUtil.closeConnection(connection);
+                    }
+
+                    @Override
+                    public DwsExaminationPaperExamWindowBean map(DwsExaminationPaperExamWindowBean bean) throws Exception {
+                        String tableName = "dim_course_info";
+                        String rowKey = bean.getCourseId();
+
+                        JSONObject jsonObject = HBaseUtil.getRow(connection, Constant.HBASE_NAMESPACE, tableName, rowKey);
+
+                        bean.setCourseName(jsonObject.getString("course_name"));
+
+                        return bean;
+                    }
+                }
+        );
+        withCourceDs.print("######");
         //5.写出到doris
-        mapDs.map(
+        withCourceDs.map(
                 new DorisMapFunction<>()
         ).sinkTo(
                 FlinkSinkUtil.getDorisSink(Constant.DORIS_DB_NAME,Constant.DWS_EXAM_PAPER_TEST_WINDOW)
