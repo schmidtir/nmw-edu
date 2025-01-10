@@ -38,12 +38,12 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.atguigu</groupId>
-            <artifactId>nmw-edu</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.atguigu</groupId>-->
+<!--            <artifactId>nmw-edu</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
 
         <dependency>

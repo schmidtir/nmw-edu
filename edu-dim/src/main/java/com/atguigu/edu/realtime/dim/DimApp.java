@@ -311,7 +311,7 @@ public class DimApp extends BaseApp {
                 new RichSinkFunction<Tuple2<JSONObject, TableProcessDim>>() {
 
                     Connection connection = null;
-//                    Jedis jedis = null;
+                    Jedis jedis = null;
                     /**
                      * 创建连接
                      */
@@ -319,7 +319,7 @@ public class DimApp extends BaseApp {
                     public void open(Configuration parameters) throws Exception {
                         // 获取Hbase 连接对象
                         connection = HBaseUtil.getConnection();
-//                        jedis = RedisUtil.getJedis();
+                        jedis = RedisUtil.getJedis();
                     }
 
                     /***
@@ -328,7 +328,7 @@ public class DimApp extends BaseApp {
                     @Override
                     public void close() throws Exception {
                         HBaseUtil.closeConnection( connection );
-//                        RedisUtil.closeJedis( jedis );
+                        RedisUtil.closeJedis( jedis );
                     }
 
                     /***
@@ -368,10 +368,10 @@ public class DimApp extends BaseApp {
                             HBaseUtil.putRow( connection, HBASE_NAMESPACE_DIM, tableProcessDim.getSinkTable() , rowKey, sinkFamily ,dataJsonObj);
                         }
 
-//                        if ( MAXWELL_TYPE_DELETE.equals(type) || MAXWELL_TYPE_UPDATE.equals(type) ) {
-//                            // 删除 Redis 中对应的维度数据
-//                            RedisUtil.deleteDim( jedis, tableProcessDim.getSinkTable(), rowKey );
-//                        }
+                        if ( MAXWELL_TYPE_DELETE.equals(type) || MAXWELL_TYPE_UPDATE.equals(type) ) {
+                            // 删除 Redis 中对应的维度数据
+                            RedisUtil.deleteDim( jedis, tableProcessDim.getSinkTable(), rowKey );
+                        }
                     }
                 }
         );
