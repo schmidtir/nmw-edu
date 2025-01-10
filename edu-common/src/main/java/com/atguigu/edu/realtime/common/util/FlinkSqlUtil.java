@@ -1,6 +1,5 @@
 package com.atguigu.edu.realtime.common.util;
 
-import com.atguigu.edu.realtime.common.constant.Constant;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
