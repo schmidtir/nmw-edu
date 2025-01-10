@@ -1,6 +1,5 @@
 package com.atguigu.edu.realtime.common.util;
 
-import com.atguigu.edu.realtime.common.constant.Constant;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.*;
@@ -34,9 +33,9 @@ public class FlinkSqlUtil {
                 "     , 'table.identifier' = '" + database + "." + table +"' \n" +
                 "     , 'username' = '" + DORIS_USERNAME + "'  \n" +
                 "     , 'password' = '" + DORIS_PASSWORD + "'  \n" +
-                "     , 'sink.enable-2pc' = 'false'  \n" +
-                // "     ,  'sink.enable-2pc' = 'true'  \n" +
-                // "     ,  'sink.label-prefix' = 'doris_label'  " +
+//                "     , 'sink.enable-2pc' = 'false'  \n" +
+                 "     ,  'sink.enable-2pc' = 'true'  \n" +
+                 "     ,  'sink.label-prefix' = 'doris_label'  " +
                 " ) ";
     }
 

@@ -22,6 +22,7 @@ public class DwsUserLoginWindowBean {
     // 窗口开始结束
     String stt;
     String edt;
+    String curDate;
     // 独立用户
     Long uvCount;
     // 回流用户

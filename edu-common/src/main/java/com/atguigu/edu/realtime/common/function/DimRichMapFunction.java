@@ -5,7 +5,6 @@ package com.atguigu.edu.realtime.common.function;
  * Author : Kevin
  * Create Date ：2025/1/8
  * Create Time ：18:57
- * TODO
  * <p>
  * version: 0.0.1.0
  */
@@ -19,10 +18,8 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.client.Connection;
 import redis.clients.jedis.Jedis;
 
-import java.io.Serializable;
 
 import static com.atguigu.edu.realtime.common.constant.Constant.HBASE_NAMESPACE;
-import static org.apache.hadoop.hbase.util.CommonFSUtils.getTableName;
 
 public abstract class DimRichMapFunction<T> extends RichMapFunction< T, T> implements DimFuction<T> {
 

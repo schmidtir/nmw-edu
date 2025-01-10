@@ -73,7 +73,14 @@ public class DwsTrafficSourceKeywordPageViewWindow extends BaseSqlApp {
                         " ) " +
                         " GROUP BY window_start, window_end , keyword"
         );
+        streamTableEnv.createTemporaryView("result_table" , result);
         // result.execute().print();
+        Table result_nots = streamTableEnv.sqlQuery(
+                "select \n" +
+                        " stt , edt , cur_date , source , keyword , keyword_count "
+                        + " from result_table"
+        );
+        // result_nots.execute().print();
         streamTableEnv.executeSql(
                 "create table " + Constant.DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW  + "(\n" +
                         " stt string ,\n" +
@@ -81,12 +88,11 @@ public class DwsTrafficSourceKeywordPageViewWindow extends BaseSqlApp {
                         " cur_date string ," +
                         " source string ," +
                         " keyword string ," +
-                        " keyword_count bigint ," +
-                        " ts bigint" +
+                        " keyword_count bigint " +
                         " ) " + FlinkSqlUtil.getDorisSinkDDL(Constant.DORIS_DB_NAME , Constant.DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW)
 
         );
-        result.executeInsert( Constant.DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW);
+        result_nots.executeInsert( Constant.DWS_TRAFFIC_SOURCE_KEYWORD_PAGE_VIEW_WINDOW);
 
     }
 }

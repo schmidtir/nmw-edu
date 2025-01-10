@@ -24,7 +24,6 @@ import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -111,9 +110,9 @@ public class FlinkSourceUtil {
 
                 )
 //               .setStartingOffsets(OffsetsInitializer.earliest())
-             .setStartingOffsets(OffsetsInitializer.latest())
-            .setStartingOffsets(OffsetsInitializer.earliest())
-             // .setStartingOffsets(OffsetsInitializer.latest())
+//             .setStartingOffsets(OffsetsInitializer.latest())
+//            .setStartingOffsets(OffsetsInitializer.earliest())
+              .setStartingOffsets(OffsetsInitializer.latest())
             //    .setProperty(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed")
                 .build();
 

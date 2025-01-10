@@ -6,8 +6,6 @@ import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.DwdLearnPlayBean;
 import com.atguigu.edu.realtime.common.constant.Constant;
 import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
-import com.atguigu.edu.realtime.common.util.FlinkSourceUtil;
-import com.ververica.cdc.connectors.mysql.source.MySqlSource;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;

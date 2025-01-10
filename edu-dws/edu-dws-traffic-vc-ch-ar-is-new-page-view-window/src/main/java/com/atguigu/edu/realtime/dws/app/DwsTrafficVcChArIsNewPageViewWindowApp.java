@@ -189,7 +189,7 @@ public class DwsTrafficVcChArIsNewPageViewWindowApp extends BaseApp {
                         trafficForSourcePvBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         trafficForSourcePvBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
                         trafficForSourcePvBean.setTs(System.currentTimeMillis());
-
+                        trafficForSourcePvBean.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
                         out.collect(trafficForSourcePvBean);
                     }
                 }
@@ -246,7 +246,7 @@ public class DwsTrafficVcChArIsNewPageViewWindowApp extends BaseApp {
                     }
                 }
         );
-        // provinceNameStream.print();
+        provinceNameStream.print();
         provinceNameStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(

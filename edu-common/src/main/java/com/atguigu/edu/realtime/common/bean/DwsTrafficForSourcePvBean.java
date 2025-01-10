@@ -1,5 +1,6 @@
 package com.atguigu.edu.realtime.common.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,13 +23,16 @@ public class DwsTrafficForSourcePvBean {
     String stt;
     // 窗口结束时间
     String edt;
+    String curDate;
     // 版本号
     String versionCode;
     // 来源 ID
+    @JSONField(serialize=false)
     String sourceId;
     // 来源名称
     String sourceName;
     // 省份 ID
+    @JSONField(serialize=false)
     String provinceId;
     // 省份名称
     String provinceName;
@@ -45,5 +49,6 @@ public class DwsTrafficForSourcePvBean {
     // 跳出会话数
     Long jumpSessionCount;
     // 时间戳
+    @JSONField(serialize=false)
     Long ts;
 }
