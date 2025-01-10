@@ -14,7 +14,6 @@ package com.atguigu.edu.realtime.dws.app;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.edu.realtime.common.base.BaseApp;
 import com.atguigu.edu.realtime.common.bean.TradeOrderProvincesBean;
-import com.atguigu.edu.realtime.common.bean.TradeOrderSourcesBean;
 import com.atguigu.edu.realtime.common.function.DimRichMapFunction;
 import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;

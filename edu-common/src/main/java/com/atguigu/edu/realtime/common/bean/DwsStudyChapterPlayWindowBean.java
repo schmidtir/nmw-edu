@@ -24,6 +24,7 @@ public class DwsStudyChapterPlayWindowBean {
     String stt ;
     // 窗口结束时间
     String edt;
+    String cur_date;
     // 视频 ID
     @JSONField(serialize=false)
     String videoId;
@@ -48,5 +49,6 @@ public class DwsStudyChapterPlayWindowBean {
     Long playUuCount;
 
     // 时间戳
+    @JSONField(serialize=false)
     Long ts;
 }

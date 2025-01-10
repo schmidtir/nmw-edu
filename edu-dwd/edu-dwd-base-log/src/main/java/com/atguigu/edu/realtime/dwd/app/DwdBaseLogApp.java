@@ -221,10 +221,10 @@ public class DwdBaseLogApp extends BaseApp{
         SideOutputDataStream<String> appVideoDs = splitDs.getSideOutput(appVideoTag);
 
         // 没问题
-        /*errDs.print("ERR");
+        errDs.print("ERR");
         startDs.print("START");
         actionDs.print("ACTION");
-        displayDs.print("DISPLAY");*/
+        displayDs.print("DISPLAY");
         splitDs.print("PAGE");
 
         // 写入 Kafka 对应主题中

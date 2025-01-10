@@ -31,7 +31,6 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.Hbck;
 
 import java.time.Duration;
 
@@ -135,7 +134,7 @@ public class DwsStudyChapterPlayWindow extends BaseApp {
                                 next.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                                 next.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
                                 next.setTs(System.currentTimeMillis());
-
+                                next.setCur_date(DateFormatUtil.tsToDate(context.window().getStart()));
                                 out.collect(next);
                             }
                         }
@@ -193,10 +192,10 @@ public class DwsStudyChapterPlayWindow extends BaseApp {
                 }
         );
         chapterNameStream.print();
-        /*chapterNameStream.map(
+        chapterNameStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(
                 FlinkSinkUtil.getDorisSink( Constant.DORIS_DB_NAME , Constant.DWS_STUDY_CHAPTER_PLAY_WINDOW)
-        );*/
+        );
     }
 }

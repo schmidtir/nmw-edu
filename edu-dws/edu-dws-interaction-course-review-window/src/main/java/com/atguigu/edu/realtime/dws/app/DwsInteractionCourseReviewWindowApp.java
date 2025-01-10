@@ -9,12 +9,9 @@ import com.atguigu.edu.realtime.common.function.DimRichMapFunction;
 import com.atguigu.edu.realtime.common.function.DorisMapFunction;
 import com.atguigu.edu.realtime.common.util.DateFormatUtil;
 import com.atguigu.edu.realtime.common.util.FlinkSinkUtil;
-import com.atguigu.edu.realtime.common.util.HBaseUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
-import org.apache.flink.api.common.functions.RichMapFunction;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -23,7 +20,6 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
-import org.apache.hadoop.hbase.client.Connection;
 
 import java.time.Duration;
 

@@ -1,11 +1,9 @@
 package com.atguigu.edu.realtime.dws.app;
 
 import com.atguigu.edu.realtime.common.base.BaseSqlApp;
-import com.atguigu.edu.realtime.common.bean.KeywordBean;
 import com.atguigu.edu.realtime.common.constant.Constant;
 import com.atguigu.edu.realtime.common.function.SplitKeyWordTableFunction;
 import com.atguigu.edu.realtime.common.util.FlinkSqlUtil;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;

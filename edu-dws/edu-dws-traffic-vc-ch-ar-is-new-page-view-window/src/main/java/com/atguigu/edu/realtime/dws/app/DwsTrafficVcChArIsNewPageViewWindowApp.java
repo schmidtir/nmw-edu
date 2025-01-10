@@ -27,10 +27,8 @@ import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.api.windowing.windows.Window;
 import org.apache.flink.util.Collector;
 import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.Hbck;
 
 import javax.swing.*;
 import java.time.Duration;
@@ -246,7 +244,7 @@ public class DwsTrafficVcChArIsNewPageViewWindowApp extends BaseApp {
                     }
                 }
         );
-        provinceNameStream.print();
+        // provinceNameStream.print();
         provinceNameStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(

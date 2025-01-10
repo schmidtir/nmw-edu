@@ -67,21 +67,21 @@ public class DwsUserLoginWindow extends BaseApp {
                     public void processElement(String value, KeyedProcessFunction<String, String, DwsUserLoginWindowBean>.Context ctx, Collector<DwsUserLoginWindowBean> out) throws Exception {
                         JSONObject jsonObj = JSON.parseObject(value);
                         Long ts = jsonObj.getLong("ts");
-                        String curDate = DateFormatUtil.tsToDate(ts);
+                        String curDateTime = DateFormatUtil.tsToDateTime(ts);
                         String lastLoginDt = lastLoginDtState.value();
                         long uvCount = 0L;
                         long backCount = 0L;
                         if (lastLoginDt == null) {
                             uvCount = 1L;
-                            lastLoginDtState.update(curDate);
+                            lastLoginDtState.update(curDateTime);
                         } else {
-                            if (lastLoginDt.compareTo(curDate) < 0) {
+                            if (lastLoginDt.compareTo(curDateTime) < 0) {
                                 // 一定是独立
                                 uvCount = 1L;
                                 if (ts - DateFormatUtil.dateTimeToTs(lastLoginDt) > 7 * 24 * 3600 * 1000) {
                                     backCount = 1L;
                                 }
-                                lastLoginDtState.update(curDate);
+                                lastLoginDtState.update(curDateTime);
                             }
                         }
                         if (uvCount != 0L || backCount != 0L) {
@@ -125,17 +125,16 @@ public class DwsUserLoginWindow extends BaseApp {
                         String edt = DateFormatUtil.tsToDateTime(context.window().getEnd());
                         next.setStt(stt);
                         next.setEdt(edt);
-                        next.setTs(System.currentTimeMillis());
                         next.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
                         out.collect(next);
                     }
                 }
         );
-        reduceStream.print();
-        /*reduceStream.map(
+        reduceStream.print("RESULT");
+        reduceStream.map(
                 new DorisMapFunction<>()
         ).sinkTo(
                 FlinkSinkUtil.getDorisSink( Constant.DORIS_DB_NAME , Constant.DWS_USER_USER_LOGIN_WINDOW)
-        );*/
+        );
     }
 }
