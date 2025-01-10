@@ -91,7 +91,7 @@ public class DwsInteractionCourseReviewWindowApp extends BaseApp {
                         //补充信息
                         dwsInteractionCourseReviewWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsInteractionCourseReviewWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
-                        dwsInteractionCourseReviewWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
+                        dwsInteractionCourseReviewWindowBean.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
                         dwsInteractionCourseReviewWindowBean.setTs(System.currentTimeMillis());
 
                         out.collect(dwsInteractionCourseReviewWindowBean);
