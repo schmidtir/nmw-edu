@@ -1,5 +1,6 @@
 package com.atguigu.edu.realtime.common.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,5 +43,6 @@ public class DwsExaminationPaperExamWindowBean {
     Long examTotalDuringSec;
 
     // 时间戳
+    @JSONField(serialize=false)
     Long ts;
 }

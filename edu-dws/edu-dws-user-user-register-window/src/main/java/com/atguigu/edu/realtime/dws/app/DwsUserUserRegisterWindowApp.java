@@ -40,7 +40,7 @@ public class DwsUserUserRegisterWindowApp extends BaseApp {
         beanDs.print("BD");
 
         //2.分组去重
-        beanDs.keyBy
+
 
 
         //3.开窗聚合
