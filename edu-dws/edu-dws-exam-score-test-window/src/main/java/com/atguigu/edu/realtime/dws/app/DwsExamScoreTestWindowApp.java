@@ -69,7 +69,7 @@ public class DwsExamScoreTestWindowApp extends BaseApp {
                     }
                 }
         );
-        beanDs.print("BD");
+//        beanDs.print("BD");
 
         //2.添加水位线
         SingleOutputStreamOperator<DwsExaminationPaperScoreDurationExamWindowBean> withWaterDs = beanDs.assignTimestampsAndWatermarks(
@@ -101,7 +101,7 @@ public class DwsExamScoreTestWindowApp extends BaseApp {
                         //补充信息
                         dwsExaminationPaperScoreDurationExamWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                         dwsExaminationPaperScoreDurationExamWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
-                        dwsExaminationPaperScoreDurationExamWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
+                        dwsExaminationPaperScoreDurationExamWindowBean.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
                         dwsExaminationPaperScoreDurationExamWindowBean.setTs(System.currentTimeMillis());
 
                         out.collect(dwsExaminationPaperScoreDurationExamWindowBean);
@@ -137,6 +137,8 @@ public class DwsExamScoreTestWindowApp extends BaseApp {
                     }
                 }
         );
+
+//        mapDs.print("MD");
 
 
         //5.写入到doris

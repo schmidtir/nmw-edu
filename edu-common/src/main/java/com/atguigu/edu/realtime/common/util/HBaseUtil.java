@@ -281,7 +281,7 @@ public class HBaseUtil {
                 jsonObject.put(k,v);
             }
             table.close();
-            System.out.println( "  HBase 查询 " + namespaceName + "." + tableName + " 表，rowkey 为 " + rowKey + " 的数据: " + jsonObject );
+//            System.out.println( "  HBase 查询 " + namespaceName + "." + tableName + " 表，rowkey 为 " + rowKey + " 的数据: " + jsonObject );
             return jsonObject;
 
         }catch (Exception e){

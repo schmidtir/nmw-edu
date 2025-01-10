@@ -58,10 +58,11 @@ public class DwsExamQuestionsTestWindowApp extends BaseApp {
                                 (element, ts) -> element.getTs()
                         )
         );
-//        withWaterDs.print("WD");
+         withWaterDs.print("WD");
 
         //3.分组、开窗聚合
-        SingleOutputStreamOperator<DwsExaminationQuestionAnswerWindowBean> keyByAndWindowDs = withWaterDs.keyBy(DwsExaminationQuestionAnswerWindowBean::getQuestion_id)
+        SingleOutputStreamOperator<DwsExaminationQuestionAnswerWindowBean> keyByAndWindowDs = withWaterDs
+                .keyBy(DwsExaminationQuestionAnswerWindowBean::getQuestion_id)
                 .window(
                         TumblingEventTimeWindows.of(Time.seconds(10L))
                 ).reduce(
@@ -83,8 +84,8 @@ public class DwsExamQuestionsTestWindowApp extends BaseApp {
                                 //补充信息
                                 dwsExaminationQuestionAnswerWindowBean.setStt(DateFormatUtil.tsToDateTime(context.window().getStart()));
                                 dwsExaminationQuestionAnswerWindowBean.setEdt(DateFormatUtil.tsToDateTime(context.window().getEnd()));
-                                dwsExaminationQuestionAnswerWindowBean.setCurDate(DateFormatUtil.tsToDateTime(context.window().getStart()));
-                                dwsExaminationQuestionAnswerWindowBean.setTs(System.currentTimeMillis());
+                                dwsExaminationQuestionAnswerWindowBean.setCurDate(DateFormatUtil.tsToDate(context.window().getStart()));
+//                                dwsExaminationQuestionAnswerWindowBean.setTs(System.currentTimeMillis());
 
 
                                 out.collect(dwsExaminationQuestionAnswerWindowBean);
@@ -92,7 +93,7 @@ public class DwsExamQuestionsTestWindowApp extends BaseApp {
                         }
                 );
 
-//        keyByAndWindowDs.print("KW");
+        keyByAndWindowDs.print("KW");
 
         //4.维度关联
         SingleOutputStreamOperator<DwsExaminationQuestionAnswerWindowBean> mapDs = keyByAndWindowDs.map(
@@ -115,6 +116,7 @@ public class DwsExamQuestionsTestWindowApp extends BaseApp {
                         String rowKey = bean.getQuestion_id();
 
                         JSONObject jsonObject = HBaseUtil.getRow(connection, Constant.HBASE_NAMESPACE, tableName, rowKey);
+
 
                         bean.setQuestion_txt(jsonObject.getString("question_txt"));
 
