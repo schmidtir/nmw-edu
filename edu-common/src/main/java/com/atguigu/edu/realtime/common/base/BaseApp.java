@@ -16,6 +16,7 @@ import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -61,20 +62,20 @@ public abstract class BaseApp {
         env.setParallelism(parallelism);
 
         // 2. 检查点配置
-//        env.setStateBackend( new HashMapStateBackend() );
+        env.setStateBackend( new HashMapStateBackend() );
         env.enableCheckpointing(10000L);
 
         env.getCheckpointConfig().setCheckpointingMode( CheckpointingMode.EXACTLY_ONCE );
 
-//        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckAndgroupId );
-//
-//        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
-//
-//        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
-//
-//        env.getCheckpointConfig().setCheckpointTimeout(100000);
-//
-//        env.getCheckpointConfig().setExternalizedCheckpointCleanup( RETAIN_ON_CANCELLATION );
+        env.getCheckpointConfig().setCheckpointStorage( CK_PATH_PREFIX + ckAndgroupId );
+
+        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
+
+        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
+
+        env.getCheckpointConfig().setCheckpointTimeout(100000);
+
+        env.getCheckpointConfig().setExternalizedCheckpointCleanup( RETAIN_ON_CANCELLATION );
 
         // 3. 配置数据源
         KafkaSource<String> kafkaSource = FlinkSourceUtil.getKafkaSource(ckAndgroupId, topic);
